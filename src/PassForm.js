@@ -35,7 +35,7 @@ class PassForm extends Component {
                     <label>Special characters (! @ # $ % ^ * _ |) to include; enter as string sequence, for example, #!@:</label>
                     <br></br><br></br>
                     <button className="btn waves-effect waves-light orange darken-3" type="submit" value="Submit">
-                        Submit <i className="material-icons right">send</i>
+                        Generate <i className="material-icons right">send</i>
                     </button>
                 </form>  
             </div>
