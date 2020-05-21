@@ -1,26 +1,99 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react';
+import PassForm from './PassForm';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = {
+    password: '',
+    error: ''
+  }
+
+  shuffle = (str) => {
+    var a = str.split(""),
+        n = a.length;
+  
+    for(var i = n - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = a[i];
+        a[i] = a[j];
+        a[j] = tmp;
+    }
+    return a.join("");
+  }
+
+  copyToClipboard = (e) => {
+    this.textArea.select();
+    document.execCommand('copy');
+    // If you prefer to not show the the whole text area selected.
+    //e.target.focus();
+  };
+  
+  renderPass = (pass) => {
+      return pass? 
+        <textarea className="materialize-textarea" readOnly ref={(textArea) => this.textArea = textArea} value= {pass} /> : null
+  }
+  renderError = (error) => {
+    return error? <p>{error}</p>: null
+  }
+
+  passGen = (length, special) => {
+    /* special characters could include !@#$%^&*()_+ */
+    let pass = ""
+    let values = "ABCDEFGHIJKLMNOPQRSTUVWZYZabcdefghijklmnopqrstuvwxyz1234567890";
+    let upper = "ABCDEFGHIJKLMNOPQRSTUVWZYZ"
+    let lower = "abcdefghijklmnopqrstuvwxyz"
+    let digits = "1234567890"
+    pass += special 
+    /* secure at least one uppercase, one lowercase, and one digit in the string */
+    pass += upper.charAt(Math.floor(Math.random() * Math.floor(upper.length - 1)))
+    pass += lower.charAt(Math.floor(Math.random() * Math.floor(lower.length - 1)))
+    pass += digits.charAt(Math.floor(Math.random() * Math.floor(digits.length - 1)))
+
+    let numOtherChars = length - pass.length;
+    // console.log(pass)
+    // console.log(length);
+    // console.log(special);
+    // console.log(numOtherChars);
+    if(numOtherChars >= 0){
+      for(let i = 0; i < numOtherChars; i++){
+        pass = pass + values.charAt(Math.floor(Math.random() * Math.floor(values.length - 1)));
+      }
+      /* shuffle the string */
+      let shuffled = this.shuffle(pass)
+
+      this.setState({
+        password: shuffled,
+        error: ''
+      })
+    }
+    else {
+      this.setState({
+        password: '',
+        error: "Length is too short for the requirements. Along with the special characters, the generated password will contain at least one uppercase character, one lowercase character, and one digit."
+      })      
+    }
+  }
+
+  render(){
+    return (
+      <div className="container">
+        <h3 className="center blue-text">Password Generator</h3>
+        <PassForm passGen={this.passGen}/>
+        <br></br>
+        {this.renderPass(this.state.password)}
+        {
+         /* Logical shortcut for only displaying the 
+            button if the copy command exists */
+         document.queryCommandSupported('copy') &&
+         this.state.password &&
+          <div>
+            <button className="btn waves-effect waves-light orange darken-3" onClick={this.copyToClipboard}>Copy<i className="material-icons right">content_copy</i></button> 
+          </div>
+        }
+
+        {this.renderError(this.state.error)}
+      </div>
+    );
+  }
 }
 
 export default App;
