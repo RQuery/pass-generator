@@ -60,18 +60,41 @@ class App extends Component {
     }
   }
 
-  passGen = (length, special) => {
+  passGen = (length, special, exclude) => {
     /* special characters could include !@#$%^&*()_+ */
     let pass = ""
     let values = "ABCDEFGHIJKLMNOPQRSTUVWZYZabcdefghijklmnopqrstuvwxyz1234567890";
     let upper = "ABCDEFGHIJKLMNOPQRSTUVWZYZ"
     let lower = "abcdefghijklmnopqrstuvwxyz"
     let digits = "1234567890"
+
+    length = parseInt(length)
+    if(isNaN(length)){
+      length = 16
+    }
+    if(!special){
+      special = "!@#$%^*_|"
+    }
+
+    for(let c of exclude){
+      values = values.replace(c, '');
+      upper = upper.replace(c, '');
+      lower = lower.replace(c, '');
+      digits = digits.replace(c, '');
+      special = special.replace(c, '');
+    }
+
     pass += special 
     /* secure at least one uppercase, one lowercase, and one digit in the string */
-    pass += upper.charAt(Math.floor(Math.random() * Math.floor(upper.length - 1)))
-    pass += lower.charAt(Math.floor(Math.random() * Math.floor(lower.length - 1)))
-    pass += digits.charAt(Math.floor(Math.random() * Math.floor(digits.length - 1)))
+    if(upper){
+      pass += upper.charAt(this.randrange(0, upper.length))
+    }
+    if(lower){
+      pass += lower.charAt(this.randrange(0, lower.length))
+    }
+    if(digits){
+      pass += digits.charAt(this.randrange(0, digits.length))
+    }
 
     let numOtherChars = length - pass.length;
     // console.log(pass)
