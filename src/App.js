@@ -81,7 +81,6 @@ class App extends Component {
     if(numOtherChars >= 0){
       for(let i = 0; i < numOtherChars; i++){
         let index = this.randrange(0, values.length);
-        console.log(index)
         pass = pass + values.charAt(index);
       }
       /* shuffle the string */
