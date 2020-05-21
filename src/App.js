@@ -112,7 +112,9 @@ class App extends Component {
          document.queryCommandSupported('copy') &&
          this.state.password &&
           <div>
-            <button className="btn waves-effect waves-light orange darken-3" onClick={this.copyToClipboard}>Copy<i className="material-icons right">content_copy</i></button> 
+            <button className="btn ripple orange darken-3" onClick={this.copyToClipboard}>
+              Copy <i className="material-icons right">content_copy</i>
+            </button> 
           </div>
         }
 

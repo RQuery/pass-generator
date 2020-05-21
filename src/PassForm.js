@@ -34,7 +34,7 @@ class PassForm extends Component {
                     <input type="text" pattern="[!@#$%^*_|]*" onChange={this.handleSpecialChange} value={this.state.special}/> 
                     <label>Special characters (! @ # $ % ^ * _ |) to include; enter as string sequence, for example, #!@:</label>
                     <br></br><br></br>
-                    <button className="btn waves-effect waves-light orange darken-3" type="submit" value="Submit">
+                    <button className="btn orange darken-3" type="submit" value="Submit">
                         Generate <i className="material-icons right">send</i>
                     </button>
                 </form>  
