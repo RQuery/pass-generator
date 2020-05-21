@@ -63,8 +63,8 @@ class App extends Component {
   passGen = (length, special, exclude) => {
     /* special characters could include !@#$%^&*()_+ */
     let pass = ""
-    let values = "ABCDEFGHIJKLMNOPQRSTUVWZYZabcdefghijklmnopqrstuvwxyz1234567890";
-    let upper = "ABCDEFGHIJKLMNOPQRSTUVWZYZ"
+    let values = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+    let upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     let lower = "abcdefghijklmnopqrstuvwxyz"
     let digits = "1234567890"
 
@@ -76,13 +76,16 @@ class App extends Component {
       special = "!@#$%^*_|"
     }
 
-    for(let c of exclude){
+    for(let e of exclude){
+      let c = new RegExp(e, "g");
       values = values.replace(c, '');
       upper = upper.replace(c, '');
       lower = lower.replace(c, '');
       digits = digits.replace(c, '');
       special = special.replace(c, '');
     }
+    console.log(values)
+    console.log(upper)
 
     pass += special 
     /* secure at least one uppercase, one lowercase, and one digit in the string */
