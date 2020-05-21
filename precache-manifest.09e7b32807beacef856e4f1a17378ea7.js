@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "bf8dfc23fef135de071a71ca01833606",
+    "revision": "b20f214016dcda42f35ae0c5bbb2efb9",
     "url": "/pass-generator/index.html"
   },
   {
