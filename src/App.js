@@ -76,16 +76,13 @@ class App extends Component {
       special = "!@#$%^*_|"
     }
 
-    for(let e of exclude){
-      let c = new RegExp(e, "g");
-      values = values.replace(c, '');
-      upper = upper.replace(c, '');
-      lower = lower.replace(c, '');
-      digits = digits.replace(c, '');
-      special = special.replace(c, '');
+    for(let c of exclude){
+      values = values.split(c).join('')
+      upper = upper.split(c).join('')
+      lower = lower.split(c).join('')
+      digits = digits.split(c).join('')
+      special = special.split(c).join('')
     }
-    console.log(values)
-    console.log(upper)
 
     pass += special 
     /* secure at least one uppercase, one lowercase, and one digit in the string */
