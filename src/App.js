@@ -35,6 +35,31 @@ class App extends Component {
     return error? <p>{error}</p>: null
   }
 
+  // Generate a random integer r with equal chance in  min <= r < max.
+  randrange(min, max) {
+    var range = max - min;
+
+    var requestBytes = Math.ceil(Math.log2(range) / 8);
+    if (!requestBytes) { // No randomness required
+        return min;
+    }
+    var maxNum = Math.pow(256, requestBytes);
+    var ar = new Uint8Array(requestBytes);
+
+    while (true) {
+        window.crypto.getRandomValues(ar);
+
+        var val = 0;
+        for (var i = 0;i < requestBytes;i++) {
+            val = (val << 8) + ar[i];
+        }
+
+        if (val < maxNum - maxNum % range) {
+            return min + (val % range);
+        }
+    }
+  }
+
   passGen = (length, special) => {
     /* special characters could include !@#$%^&*()_+ */
     let pass = ""
@@ -55,7 +80,9 @@ class App extends Component {
     // console.log(numOtherChars);
     if(numOtherChars >= 0){
       for(let i = 0; i < numOtherChars; i++){
-        pass = pass + values.charAt(Math.floor(Math.random() * Math.floor(values.length - 1)));
+        let index = this.randrange(0, values.length);
+        console.log(index)
+        pass = pass + values.charAt(index);
       }
       /* shuffle the string */
       let shuffled = this.shuffle(pass)
